@@ -4,12 +4,15 @@ const passwordUtils = require('../lib/passwordUtils');
 const connection = require('../config/database');
 const User = connection.models.User;
 
+const validPassword = passwordUtils.validPassword
+const genPassword = passwordUtils.genPassword
+
 /**
  * -------------- POST ROUTES ----------------
  */
 
  // TODO
- router.post('/login', (req, res, next) => {});
+ router.post('/login', passport.authenticate("local"), (req, res, next) => {});
 
  // TODO
  router.post('/register', (req, res, next) => {});
