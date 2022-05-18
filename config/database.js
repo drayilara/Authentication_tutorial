@@ -25,7 +25,8 @@ async function connectToDB(){
 const userSchema = new mongoose.Schema({
     username : String,
     salt : String,
-    hash : String
+    hash : String,
+    admin : Boolean
 });
 
 

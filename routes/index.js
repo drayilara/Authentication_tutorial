@@ -2,6 +2,9 @@ const router = require('express').Router();
 const passport = require('passport');
 const genPassword = require('../lib/passwordUtils').genPassword;
 const User = require('../config/database');
+const isAuth = require('../config/authMiddleware').isAuth;
+const isAdmin = require('../config/authMiddleware').isAdmin;
+
 
 
 
@@ -76,14 +79,13 @@ router.get('/register', (req, res, next) => {
  * 
  * Also, look up what behaviour express session has without a maxage set
  */
-router.get('/protected-route', (req, res, next) => {
-    
-    // This is how you check if a user is authenticated and protect a route.  You could turn this into a custom middleware to make it less redundant
-    if (req.isAuthenticated()) {
-        res.send('<h1>You are authenticated</h1><p><a href="/logout">Logout and reload</a></p>');
-    } else {
-        res.send('<h1>You are not authenticated</h1><p><a href="/login">Login</a></p>');
-    }
+router.get('/protected-route', isAuth, (req, res, next) => {
+    console.log(req.user);
+    res.redirect("/admin-route");
+});
+
+router.get('/admin-route', isAdmin, (req, res, next) => {
+    res.send("welcome admin");
 });
 
 // Visiting this route logs the user out
