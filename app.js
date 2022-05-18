@@ -1,9 +1,8 @@
 require('dotenv').config();
-// passport was here
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
-// var passport = require('passport');
+// const passport = require('passport');
 const crypto = require('crypto');
 const routes = require('./routes');
 const connection = require('./config/database');
@@ -46,11 +45,6 @@ app.use(session({
  */
 
 app.use(passport.initialize());
-
-
-
-
-
 app.use(passport.session());
 
 

@@ -12,23 +12,25 @@ const mongoose = require('mongoose');
  * 
  * DB_STRING=mongodb://<user>:<password>@localhost:27017/database_name
  */ 
+connectToDB();
 
-const conn = process.env.DB_STRING;
+async function connectToDB(){
+    try{
+        await mongoose.connect('mongodb://localhost:27017/passport_tutorial_db', { useNewUrlParser: true, useUnifiedTopology: true });
+    }catch(err){
+        console.log(err.message);
+    }
+}
 
-const connection = mongoose.createConnection(conn, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+const userSchema = new mongoose.Schema({
+    username : String,
+    salt : String,
+    hash : String
 });
 
-// Creates simple schema for a User.  The hash and salt are derived from the user's given password when they register
-const UserSchema = new mongoose.Schema({
-    username: String,
-    hash: String,
-    salt: String
-});
+
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
 
 
-const User = connection.model('User', UserSchema);
-
-// Expose the connection
-module.exports = connection;
